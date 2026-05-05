@@ -108,6 +108,27 @@
     #copy-card-data:active {
       background: #557755;
     }
+
+    .disclaimer-box {
+      background: rgba(255, 166, 0, 0.05);
+      /* Very subtle warning amber */
+      border: 1px solid rgba(255, 166, 0, 0.2);
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 4px;
+      font-size: 0.75em;
+      line-height: 1.4;
+      color: #bbb;
+    }
+
+    .disclaimer-box strong {
+      display: block;
+      color: #ffa600;
+      /* Amber warning text */
+      margin-bottom: 5px;
+      font-size: 0.85em;
+      letter-spacing: 1px;
+    }
   </style>
 </head>
 
@@ -193,8 +214,18 @@
         <button id="mag-rand">RANDOMIZE ID</button>
         <button id="copy-card-data" title="Paste this data into your order personalization">COPY CARD
           DATA</button>
+        <div class="disclaimer-box">
+          <strong>NOTICE FROM THE DEPARTMENT OF MANUFACTURING:</strong>
+          <p>
+            This interface provides a digital approximation of the final asset.
+            Due to variance in display calibration and the nature of physical pigment
+            application, printed colors may deviate from screen representations.
+            Final output remains subject to industrial printer tolerances.
+          </p>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 

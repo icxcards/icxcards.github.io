@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bwip-js/dist/bwip-js-min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body {
+      margin: 0;
+      background: #121212;
+      color: #e0e0e0;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      min-height: 100dvh
+    }
+
+    #ui-container {
+      display: flex;
+      flex-direction: row;
+      height: 100dvh;
+    }
+
+    #canvas-holder {
+      flex: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+      touch-action: none;
+    }
+
+    #controls {
+      flex: 1;
+      background: #1a1a1a;
+      padding: 20px;
+      border-left: 2px solid #333;
+      /* Crucial: allow this panel to scroll if content overflows */
+      overflow-y: auto;
+      /* Smooth scrolling for mobile */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 800px) {
+      #ui-container {
+        flex-direction: column;
+      }
+
+      #controls {
+        flex: 1;
+        /* Let the controls take the remaining 50% */
+        border-left: none;
+        border-top: 2px solid #333;
+        /* Ensure the user can scroll down to the Copy button */
+        overflow-y: auto;
+      }
+    }
+
+    .input-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8em;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #333;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    button:active {
+      background: #444;
+    }
+
+    #copy-card-data {
+      background: #3e4a3e;
+      color: #afffaf;
+      border: 1px solid #557755;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      /* Extra padding so mobile thumbs can hit it */
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    #copy-card-data:active {
+      background: #557755;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="ui-container">
+    <div id="canvas-holder"></div>
+    <div id="controls">
+      <h3>SCP ACCESS TERMINAL</h3>
+      <div class="input-group">
+        <label>NAME or TITLE</label>
+        <input type="text" id="fname" value="Site Personnel">
+      </div>
+      <div class="input-group">
+        <label>CLEARANCE LEVEL</label>
+        <select id="clearance">
+          <option value="0">Level 0 (Cosmetic)</option>
+          <option value="1">Level 1 (Confidential)</option>
+          <option value="2">Level 2 (Restricted)</option>
+          <option value="3" selected>Level 3 (Secret)</option>
+          <option value="4">Level 4 (Top Secret)</option>
+          <option value="5">Level 5 (Thaumiel)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>DEPARTMENT</label>
+        <select id="department">
+
+          <option value="Regular" selected>SCP Logo</option>
+          <option value="Administration">Administration</option>
+          <option value="ExternalAffairs">External Affairs</option>
+          <option value="Engineering">Engineering</option>
+          <option value="Ethics">Ethics</option>
+          <option value="Intelligence">Intelligence</option>
+          <option value="InternalSecurity">Internal Security</option>
+          <option value="Logistics">Logistics</option>
+          <option value="Manufacturing">Manufacturing</option>
+          <option value="Medical">Medical</option>
+          <option value="MobileTaskForce">Mobile Task Force</option>
+          <option value="Science">Science</option>
+          <option value="Security">Security</option>
+          <option value="Tribunal">Tribunal</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>CARD COLOR</label>
+        <select id="card-color">
+
+          <option value="Black" data-invert="true">Black</option>
+          <option value="Blue" data-invert="false">Blue</option>
+          <option value="Brown" data-invert="false">Brown</option>
+          <option value="Cyan" data-invert="false">Cyan</option>
+          <option value="D-Blue" data-invert="true">D-Blue</option>
+          <option value="D-Green" data-invert="true">D-Green</option>
+          <option value="Grape" data-invert="true">Grape</option>
+          <option value="Green" data-invert="false">Green</option>
+          <option value="Indigo" data-invert="false">Indigo</option>
+          <option value="L-Blue" data-invert="false">L-Blue</option>
+          <option value="L-Orange" data-invert="false">L-Orange</option>
+          <option value="Lime" data-invert="false">Lime</option>
+          <option value="Orange" data-invert="false">Orange</option>
+          <option value="P-Blue" data-invert="false">P-Blue</option>
+          <option value="P-Green" data-invert="false">P-Green</option>
+          <option value="P-Pink" data-invert="false">P-Pink</option>
+          <option value="P-Purple" data-invert="false">P-Purple</option>
+          <option value="P-Red" data-invert="false">P-Red</option>
+          <option value="P-Yellow" data-invert="false">P-Yellow</option>
+          <option value="Pink" data-invert="false">Pink</option>
+          <option value="Purple" data-invert="false">Purple</option>
+          <option value="Red" data-invert="false" selected>Red</option>
+          <option value="Violet" data-invert="false">Violet</option>
+          <option value="Yellow" data-invert="false">Yellow</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>BADGE ID</label>
+        <input type="text" id="badge" value="77341209">
+      </div>
+      <div class="input-group">
+        <label>MAGSTRIPE DATA</label>
+        <input type="text" id="magstripe" value="EXP:NONE|ID:SITE-19">
+      </div>
+      <div class="input-group">
+        <button id="mag-rand">RANDOMIZE ID</button>
+        <button id="copy-card-data" title="Paste this data into your order personalization">COPY CARD
+          DATA</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="sketch.js"></script>
+
+</html>

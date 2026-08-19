@@ -124,11 +124,21 @@ function randomizeMagstripe(){
 }
 
 function runMagReplacements(){
-  return magstripeField.value()
+  let m = magstripeField.value()
     .replace('{DEPT}', deptShort())
     .replace('{YEAR}', new Date().getFullYear())
     .replace('{CLR}', accessField.value())  
   ;
+  
+  return validateMagstripe(m) ? m : m.length > 78 ? 'OVER MAX LENGTH' : `INVALID MAGSTRIPE CHARACTER: ${m.replace(magstripeNegRegex,'')}`
+}
+
+const validMagstripeCharacters = 'A-Za-z0-9!#$%\'\\(\\)*+,-.\\/;:<@>=^\\]\\\\\\["&_ '
+const magstripeRegex = new RegExp(`^[${validMagstripeCharacters}]{0,78}$`,'v');
+const magstripeNegRegex = new RegExp(`[${validMagstripeCharacters}]`,'gv');
+
+function validateMagstripe(magdata){
+    return magstripeRegex.test(magdata);
 }
 
 function randomizeId(){
